@@ -1,3 +1,7 @@
 # books_app
 
-A new Flutter project.
+Aplicativo de exemplo desenvolvido em Flutter para consulta de livros na Google Books
+
+# Autor
+
+Bruno Ramon de Almeida e Silva
