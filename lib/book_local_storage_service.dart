@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'book_item.dart';
 import 'dart:convert';
+import 'package:provider/provider.dart';
 
 class BookLocalStorageService {
   static const String _bookListKey = 'bookList';
@@ -39,7 +40,11 @@ class BookLocalStorageService {
 
   Future<void> addBookToStorage(BookItem book) async {
     List<BookItem> existingList = await getBookList();
-    existingList.add(book);
+
+    final existingBookIndex = existingList.indexWhere((b) => b.id == book.id);
+    if (existingBookIndex == -1) {
+      existingList.add(book);
+    }
     await saveBookList(existingList);
   }
 

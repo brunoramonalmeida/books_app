@@ -1,3 +1,4 @@
+import 'package:books_app/about_page.dart';
 import 'package:books_app/book_search_page.dart';
 import 'package:books_app/fav_books_page.dart';
 import 'package:books_app/search_provider.dart';
@@ -11,8 +12,10 @@ class BottomNavigationBarExampleApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: BottomNavigationBarExample(),
+    return MaterialApp(
+      home: ChangeNotifierProvider(
+          create: (_) => AppNavigationState(),
+          child: BottomNavigationBarExample()),
     );
   }
 }
@@ -27,31 +30,19 @@ class BottomNavigationBarExample extends StatefulWidget {
 
 class _BottomNavigationBarExampleState
     extends State<BottomNavigationBarExample> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[
-    BookSearchScreen(),
-    FavBooksPageScreen(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    var editingController;
+    final navigationState = Provider.of<AppNavigationState>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Book App'),
+        title: const Text('Buscador de livros'),
       ),
       body: ChangeNotifierProvider(
         create: (_) => SearchProvider(),
-        child: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
+        child: IndexedStack(
+          index: navigationState.selectedIndex,
+          children: [BookSearchScreen(), FavBooksPageScreen(), AboutScreen()],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -64,11 +55,26 @@ class _BottomNavigationBarExampleState
             icon: Icon(Icons.book),
             label: 'Favoritos',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Sobre',
+          ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: navigationState.selectedIndex,
         selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+        onTap: navigationState.updateSelectedIndex,
       ),
     );
+  }
+}
+
+class AppNavigationState with ChangeNotifier {
+  int _selectedIndex = 0;
+
+  int get selectedIndex => _selectedIndex;
+
+  void updateSelectedIndex(int index) {
+    _selectedIndex = index;
+    notifyListeners();
   }
 }

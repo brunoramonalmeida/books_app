@@ -3,6 +3,7 @@ import 'package:books_app/book_item.dart';
 import 'package:books_app/book_local_storage_service.dart';
 import 'package:books_app/book_response.dart';
 import 'package:books_app/book_service.dart';
+import 'package:books_app/favorite_provider.dart';
 import 'package:books_app/search_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -16,17 +17,17 @@ class BookSearchScreen extends StatefulWidget {
 
 class _BookSearchScreenState extends State<BookSearchScreen> {
   late Dio _dio;
-  late Future<BookResponse> _bookResponseFuture;
   late BookService _bookService;
   late BookLocalStorageService _bookLocalStorageService;
+  late FavoriteProvider _favoriteProvider;
 
   @override
   void initState() {
     super.initState();
     _dio = Dio();
-    _bookResponseFuture = Future.value(BookResponse());
     _bookService = BookService(_dio);
     _bookLocalStorageService = BookLocalStorageService();
+    _favoriteProvider = FavoriteProvider();
   }
 
   @override
@@ -47,10 +48,9 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
                     suffixIcon: IconButton(
                       icon: Icon(Icons.search),
                       onPressed: () {
-                        setState(() {
-                          _bookResponseFuture = _bookService
-                              .searchBooks(searchProvider.searchQuery);
-                        });
+                        if (!searchProvider.searchQuery.isEmpty) {
+                          searchProvider.getBooks(_bookService);
+                        }
                       },
                     ),
                   ),
@@ -58,7 +58,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
               ),
               Expanded(
                 child: FutureBuilder<BookResponse>(
-                  future: _bookResponseFuture,
+                  future: searchProvider.bookResponse,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
@@ -89,14 +89,15 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
                               subtitle: Text(
                                   book.volumeInfo?.authors?.join(', ') ?? ''),
                               trailing: IconButton(
-                                icon: Icon(
-                                  book.isFavorite ?? false
-                                      ? Icons.bookmark
-                                      : Icons.bookmark_border,
-                                  color: Colors.blue,
-                                ),
-                                onPressed: () => toggleFavorite(book),
-                              ),
+                                  icon: Icon(
+                                    book.isFavorite ?? false
+                                        ? Icons.bookmark
+                                        : Icons.bookmark_border,
+                                    color: Colors.blue,
+                                  ),
+                                  onPressed: () {
+                                    toggleFavorite(book, searchProvider);
+                                  }),
                             ),
                           );
                         },
@@ -112,19 +113,25 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
     );
   }
 
-  toggleFavorite(BookItem book) {
-    setState(() {
+  toggleFavorite(BookItem book, SearchProvider searchProvider) {
+    if (book.isFavorite == null || book.isFavorite == false) {
+      searchProvider.setFavorite(book, true);
       _bookLocalStorageService.addBookToStorage(book);
-      book.isFavorite = !book.isFavorite!;
-      var message = book.isFavorite ?? true
-          ? "Adicionado aos favoritos"
-          : "Removido aos favoritos";
       Fluttertoast.showToast(
-          msg: message,
+          msg: "Adicionado aos favoritos",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
           fontSize: 16.0);
-    });
+    } else {
+      searchProvider.setFavorite(book, false);
+      _bookLocalStorageService.removeBookFromList(book);
+      Fluttertoast.showToast(
+          msg: "Removido aos favoritos",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          fontSize: 16.0);
+    }
   }
 }
