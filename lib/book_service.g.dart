@@ -21,9 +21,17 @@ class _BookService implements BookService {
   String? baseUrl;
 
   @override
-  Future<BookResponse> searchBooks(query) async {
+  Future<BookResponse> searchBooks(
+    query,
+    startIndex,
+    maxResults,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'q': query};
+    final queryParameters = <String, dynamic>{
+      r'q': query,
+      r'startIndex': startIndex,
+      r'maxResults': maxResults,
+    };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio

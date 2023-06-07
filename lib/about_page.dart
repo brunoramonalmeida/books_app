@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AboutScreen extends StatelessWidget {
-  final String name = 'Bruno Ramon';
+class AboutScreen extends StatefulWidget {
+  @override
+  State<AboutScreen> createState() => _AboutScreenState();
+}
+
+class _AboutScreenState extends State<AboutScreen> {
+  final String name = 'Bruno Ramon Almeida';
+
   final String linkedinUrl = 'https://www.linkedin.com/in/brunoramonalmeida/';
+
   final String githubUrl = 'https://github.com/brunoramonalmeida';
 
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Não foi possível abrir a URL: $url';
+  Future<void> _launchUrl(String url) async {
+    Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri)) {
+      throw Exception('Could not launch $uri');
     }
   }
 
@@ -39,7 +45,7 @@ class AboutScreen extends StatelessWidget {
               ),
             ),
             onTap: () {
-              _launchURL(linkedinUrl);
+              _launchUrl(linkedinUrl);
             },
           ),
           SizedBox(height: 8),
@@ -53,7 +59,7 @@ class AboutScreen extends StatelessWidget {
               ),
             ),
             onTap: () {
-              _launchURL(githubUrl);
+              _launchUrl(githubUrl);
             },
           ),
         ],

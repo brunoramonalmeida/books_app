@@ -17,8 +17,10 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getBooks(BookService bookService) {
-    _bookResponseFuture = bookService.searchBooks(searchQuery);
+  void getBooks(BookService bookService,
+      {int startIndex = 0, int maxResults = 40}) {
+    _bookResponseFuture =
+        bookService.searchBooks(searchQuery, startIndex, maxResults);
     notifyListeners();
   }
 

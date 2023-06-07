@@ -11,10 +11,14 @@ BookItem _$BookItemFromJson(Map<String, dynamic> json) => BookItem()
   ..volumeInfo = json['volumeInfo'] == null
       ? null
       : BookVolumeInfo.fromJson(json['volumeInfo'] as Map<String, dynamic>)
+  ..saleInfo = json['saleInfo'] == null
+      ? null
+      : BookSaleInfo.fromJson(json['saleInfo'] as Map<String, dynamic>)
   ..isFavorite = json['isFavorite'] as bool?;
 
 Map<String, dynamic> _$BookItemToJson(BookItem instance) => <String, dynamic>{
       'id': instance.id,
       'volumeInfo': instance.volumeInfo,
+      'saleInfo': instance.saleInfo,
       'isFavorite': instance.isFavorite,
     };

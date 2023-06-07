@@ -5,31 +5,30 @@ import 'package:books_app/search_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(const BottomNavigationBarExampleApp());
+void main() => runApp(const BooksApp());
 
-class BottomNavigationBarExampleApp extends StatelessWidget {
-  const BottomNavigationBarExampleApp({super.key});
+class BooksApp extends StatelessWidget {
+  const BooksApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: ChangeNotifierProvider(
           create: (_) => AppNavigationState(),
-          child: BottomNavigationBarExample()),
+          child: BottomNavigationBarWidget()),
     );
   }
 }
 
-class BottomNavigationBarExample extends StatefulWidget {
-  const BottomNavigationBarExample({super.key});
+class BottomNavigationBarWidget extends StatefulWidget {
+  const BottomNavigationBarWidget({super.key});
 
   @override
-  State<BottomNavigationBarExample> createState() =>
-      _BottomNavigationBarExampleState();
+  State<BottomNavigationBarWidget> createState() =>
+      _BottomNavigationBarWidgetState();
 }
 
-class _BottomNavigationBarExampleState
-    extends State<BottomNavigationBarExample> {
+class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
   @override
   Widget build(BuildContext context) {
     final navigationState = Provider.of<AppNavigationState>(context);

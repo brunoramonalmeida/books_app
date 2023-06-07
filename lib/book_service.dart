@@ -9,5 +9,9 @@ abstract class BookService {
   factory BookService(Dio dio, {String baseUrl}) = _BookService;
 
   @GET('/volumes')
-  Future<BookResponse> searchBooks(@Query('q') String query);
+  Future<BookResponse> searchBooks(
+    @Query('q') String query,
+    @Query('startIndex') int startIndex,
+    @Query('maxResults') int maxResults,
+  );
 }
