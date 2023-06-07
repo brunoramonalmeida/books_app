@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'book_item.dart';
+import '../models/book_item.dart';
 import 'dart:convert';
 import 'package:provider/provider.dart';
 

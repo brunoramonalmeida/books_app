@@ -1,4 +1,4 @@
-import 'package:books_app/book_response.dart';
+import 'package:books_app/models/book_response.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 

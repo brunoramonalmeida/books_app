@@ -1,7 +1,7 @@
-import 'package:books_app/about_page.dart';
-import 'package:books_app/book_search_page.dart';
-import 'package:books_app/fav_books_page.dart';
-import 'package:books_app/search_provider.dart';
+import 'package:books_app/pages/about_page.dart';
+import 'package:books_app/pages/book_search_page.dart';
+import 'package:books_app/pages/fav_books_page.dart';
+import 'package:books_app/providers/search_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

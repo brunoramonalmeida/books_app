@@ -1,5 +1,5 @@
-import 'package:books_app/book_sale_info.dart';
-import 'package:books_app/book_volume_info.dart';
+import 'package:books_app/models/book_sale_info.dart';
+import 'package:books_app/models/book_volume_info.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'book_item.g.dart';

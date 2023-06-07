@@ -1,6 +1,6 @@
-import 'package:books_app/book_item.dart';
-import 'package:books_app/book_response.dart';
-import 'package:books_app/book_service.dart';
+import 'package:books_app/models/book_item.dart';
+import 'package:books_app/models/book_response.dart';
+import 'package:books_app/services/book_service.dart';
 import 'package:flutter/foundation.dart';
 
 class SearchProvider extends ChangeNotifier {

@@ -1,10 +1,9 @@
-import 'package:books_app/book_details_page.dart';
-import 'package:books_app/favorite_provider.dart';
-import 'package:books_app/search_provider.dart';
+import 'package:books_app/pages/book_details_page.dart';
+import 'package:books_app/providers/search_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'book_local_storage_service.dart';
-import 'book_item.dart';
+import '../services/book_local_storage_service.dart';
+import '../models/book_item.dart';
 
 class FavBooksPageScreen extends StatefulWidget {
   @override
@@ -14,7 +13,6 @@ class FavBooksPageScreen extends StatefulWidget {
 class _FavBooksPageScreenState extends State<FavBooksPageScreen> {
   final BookLocalStorageService _storageService = BookLocalStorageService();
   late BookLocalStorageService _bookLocalStorageService;
-  late FavoriteProvider _favoriteProvider;
   late SearchProvider _searchProvider;
 
   toggleFavorite(BookItem book) {
@@ -32,7 +30,6 @@ class _FavBooksPageScreenState extends State<FavBooksPageScreen> {
   void initState() {
     super.initState();
     _bookLocalStorageService = BookLocalStorageService();
-    _favoriteProvider = FavoriteProvider();
     _searchProvider = SearchProvider();
   }
 

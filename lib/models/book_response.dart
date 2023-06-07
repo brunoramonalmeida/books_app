@@ -1,4 +1,4 @@
-import 'package:books_app/book_item.dart';
+import 'package:books_app/models/book_item.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'book_response.g.dart';
